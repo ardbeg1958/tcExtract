@@ -1,9 +1,10 @@
 #!/bin/sh
 # Tech Crunch Japan 作業用スクリプト
 # 原文 URL を指定すると翻訳対象の .html を抽出し、同時に word 数をカウント
-# Eye Catch 画像が指定されている場合にはそれも同時にダウンロード
+# Eye Catch 画像が指定されている場合にはそれも同時にダウンロード（そしてresize）
 #RUBY=ruby
 RUBY=/usr/bin/ruby
+RESIZE=/Users/sakohiroshi/Dropbox/jobs2018/TechCrunch/tools/resize.app
 URL=$1
 BASE=`basename $1`
 mkdir ${BASE}
@@ -59,6 +60,9 @@ then
     IMG=`basename "${IMGURL}" | sed 's/?w=[0-9]*$//'`
     curl -s ${IMGURL} > ${BASE}/${IMG}
     echo "$IMG : downloaded."
+    echo -n "$IMG : resizing ..."
+    open -a ${RESIZE} ${BASE}/${IMG}
+    echo "done."
 else
     echo "No eye-catch image."
 fi
